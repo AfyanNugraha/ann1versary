@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Countdown Anniversary 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto Mono', monospace;
+      background: linear-gradient(135deg, #ffd6ec, #d8b4f8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .timer-container {
+      background: white;
+      padding: 30px 150px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      position: relative;
+      width: 350px;
+    }
+
+    .timer-container h1 {
+      font-size: 1.2em;
+      letter-spacing: 2px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .timer-display {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .timer-box {
+      background: #f0f0f0;
+      border-radius: 10px;
+      padding: 15px 10px;
+      font-size: 2em;
+      min-width: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #ff7eb9;
+      border-radius: 3px;
+      width: 0%;
+      transition: width 1s linear;
+    }
+
+    @media (max-width: 480px) {
+    .timer-box {
+      padding: 10px 6px;
+      font-size: 1.5em;
+      min-width: 40px;
+    }
+
+    .timer-container {
+      padding: 20px 20px;
+    }
+  }
+  </style>
+</head>
+<body>
+
+  <div class="timer-container">
+    <h1>TIMER</h1>
+    <div class="timer-display" id="timer-display">
+      <div class="timer-box" id="days">00</div>
+      <div class="timer-box">:</div>
+      <div class="timer-box" id="hours">00</div>
+      <div class="timer-box">:</div>
+      <div class="timer-box" id="minutes">00</div>
+      <div class="timer-box">:</div>
+      <div class="timer-box" id="seconds">00</div>
+    </div>
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <script>
+    const tanggalJadian = new Date(2024, 12, 21, 0, 0, 0);
+
+    const tanggalAnniversary = new Date(tanggalJadian);
+    tanggalAnniversary.setFullYear(tanggalJadian.getFullYear() + 1);
+
+    const totalMs = tanggalAnniversary - new Date();
+
+    function updateCountdown() {
+      const sekarang = new Date();
+      const selisih = tanggalAnniversary - sekarang;
+
+      if (selisih <= 0) {
+        document.getElementById("timer-display").innerHTML = 
+          `<div style="font-size:1.5em;color:#ff4d6d;">🎉 Hari ini Anniversary kalian 🎉</div>`;
+        document.getElementById("progress-bar").style.width = '100%';
+        return;
+      }
+
+      const detik = Math.floor(selisih / 1000) % 60;
+      const menit = Math.floor(selisih / 1000 / 60) % 60;
+      const jam   = Math.floor(selisih / 1000 / 60 / 60) % 24;
+      const hari  = Math.floor(selisih / 1000 / 60 / 60 / 24);
+
+      document.getElementById('days').textContent = hari.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = jam.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = menit.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = detik.toString().padStart(2, '0');
+
+      const progressPercent = ((totalMs - selisih) / totalMs) * 100;
+      document.getElementById("progress-bar").style.width = `${progressPercent}%`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
+</body>
+</html>
